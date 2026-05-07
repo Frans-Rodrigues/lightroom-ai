@@ -1,0 +1,404 @@
+```html id="x7p2v9"
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lightroom AI Assistant</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#0f0f0f;
+    color:white;
+    font-family:Arial;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.sub{
+    text-align:center;
+    color:#aaa;
+    margin-bottom:30px;
+}
+
+.upload-area{
+    border:2px dashed #555;
+    padding:40px;
+    border-radius:16px;
+    text-align:center;
+    background:#1b1b1b;
+}
+
+.upload-area:hover{
+    border-color:#ff9900;
+}
+
+input{
+    margin-top:20px;
+}
+
+img{
+    width:100%;
+    border-radius:14px;
+    margin-top:25px;
+}
+
+button{
+    background:#ff9900;
+    color:white;
+    border:none;
+    padding:14px 25px;
+    border-radius:10px;
+    margin-top:25px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.resultado{
+    margin-top:30px;
+}
+
+.painel{
+    background:#1b1b1b;
+    padding:20px;
+    border-radius:14px;
+    margin-bottom:20px;
+}
+
+.painel h2{
+    color:#ff9900;
+}
+
+.item{
+    margin-bottom:12px;
+    padding-bottom:12px;
+    border-bottom:1px solid #333;
+}
+
+.nome{
+    color:#fff;
+    font-weight:bold;
+}
+
+.valor{
+    color:#4ade80;
+}
+
+.motivo{
+    color:#aaa;
+    margin-top:4px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Lightroom AI Assistant</h1>
+
+<p class="sub">
+Cole um print com CTRL + V ou envie uma imagem
+</p>
+
+<div class="upload-area">
+
+<p>
+CTRL + V para colar print
+</p>
+
+<input type="file" id="upload" accept="image/*">
+
+<img id="preview">
+
+<br>
+
+<button onclick="analisarImagem()">
+Analisar Imagem
+</button>
+
+</div>
+
+<div class="resultado" id="resultado"></div>
+
+</div>
+
+<script>
+
+const preview = document.getElementById('preview');
+
+document.addEventListener('paste', function(event){
+
+    const items = event.clipboardData.items;
+
+    for(let item of items){
+
+        if(item.type.indexOf('image') !== -1){
+
+            const file = item.getAsFile();
+
+            const url = URL.createObjectURL(file);
+
+            preview.src = url;
+
+        }
+
+    }
+
+});
+
+document.getElementById('upload')
+.addEventListener('change', function(e){
+
+    const file = e.target.files[0];
+
+    if(file){
+
+        preview.src = URL.createObjectURL(file);
+
+    }
+
+});
+
+function analisarImagem(){
+
+    const resultado = document.getElementById('resultado');
+
+    resultado.innerHTML = `
+
+    <div class="painel">
+
+    <h2>Perfil</h2>
+
+    <div class="item">
+    <div class="nome">Perfil</div>
+    <div class="valor">Adobe Retrato</div>
+    <div class="motivo">
+    Melhor resposta para tons de pele e contraste suave.
+    </div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Básico</h2>
+
+    <div class="item">
+    <div class="nome">Temperatura</div>
+    <div class="valor">4300K</div>
+    <div class="motivo">
+    Neutralizar excesso de magenta da iluminação LED.
+    </div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Matiz</div>
+    <div class="valor">-12</div>
+    <div class="motivo">
+    Corrigir dominante rosa.
+    </div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Exposição</div>
+    <div class="valor">+0.35</div>
+    <div class="motivo">
+    Recuperar luminosidade geral.
+    </div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Contraste</div>
+    <div class="valor">+10</div>
+    <div class="motivo">
+    Melhorar profundidade da cena.
+    </div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Realces</div>
+    <div class="valor">-70</div>
+    <div class="motivo">
+    Recuperar áreas estouradas.
+    </div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Sombras</div>
+    <div class="valor">+45</div>
+    <div class="motivo">
+    Abrir detalhes nas áreas escuras.
+    </div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Brancos</div>
+    <div class="valor">+12</div>
+    <div class="motivo">
+    Dar brilho sem estourar.
+    </div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Pretos</div>
+    <div class="valor">-18</div>
+    <div class="motivo">
+    Criar profundidade.
+    </div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Curva de Tons</h2>
+
+    <div class="item">
+    <div class="nome">Realces</div>
+    <div class="valor">+10</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Claros</div>
+    <div class="valor">+8</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Escuros</div>
+    <div class="valor">-6</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Sombras</div>
+    <div class="valor">-4</div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Misturador de Cores</h2>
+
+    <div class="item">
+    <div class="nome">Magenta Saturação</div>
+    <div class="valor">-35</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Roxo Saturação</div>
+    <div class="valor">-25</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Laranja Luminância</div>
+    <div class="valor">+10</div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Colorização</h2>
+
+    <div class="item">
+    <div class="nome">Meios-tons</div>
+    <div class="valor">Laranja Suave</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Sombras</div>
+    <div class="valor">Azul Frio</div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Detalhe</h2>
+
+    <div class="item">
+    <div class="nome">Nitidez</div>
+    <div class="valor">45</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Raio</div>
+    <div class="valor">1.0</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Redução de Ruído</div>
+    <div class="valor">20</div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Calibração</h2>
+
+    <div class="item">
+    <div class="nome">Primário Azul Saturação</div>
+    <div class="valor">+10</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Primário Vermelho Matiz</div>
+    <div class="valor">-4</div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Efeitos</h2>
+
+    <div class="item">
+    <div class="nome">Vinheta Pós-Corte</div>
+    <div class="valor">-8</div>
+    </div>
+
+    </div>
+
+    <div class="painel">
+
+    <h2>Máscaras Sugeridas</h2>
+
+    <div class="item">
+    <div class="nome">Gradiente Radial no assunto</div>
+    <div class="valor">Exposição +0.25</div>
+    </div>
+
+    <div class="item">
+    <div class="nome">Escurecer chão</div>
+    <div class="valor">Exposição -0.40</div>
+    </div>
+
+    </div>
+
+    `;
+
+}
+
+</script>
+
+</body>
+
+</html>
+```
